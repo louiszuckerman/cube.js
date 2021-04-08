@@ -63,6 +63,7 @@ export interface SchemaFileRepository {
 export interface DriverFactory {}
 
 export type DatabaseType =
+  | 'cubestore'
   | 'athena'
   | 'bigquery'
   | 'clickhouse'

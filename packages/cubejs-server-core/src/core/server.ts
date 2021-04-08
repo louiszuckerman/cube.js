@@ -283,14 +283,13 @@ export class CubejsServerCore {
     CubeStoreDevDriver: typeof CubeStoreDevDriver,
   }>('@cubejs-backend/cubestore-driver', {
     relative: isDockerImage(),
-    silent: true,
   });
 
   protected handleConfiguration(opts: CreateOptions): ServerCoreInitializedOptions {
     optionsValidate(opts);
 
     const dbType = opts.dbType || <DatabaseType|undefined>process.env.CUBEJS_DB_TYPE;
-    const externalDbType = opts.externalDbType || <DatabaseType|undefined>process.env.CUBEJS_EXT_DB_TYPE;
+    const externalDbType = opts.externalDbType || <DatabaseType|undefined>process.env.CUBEJS_EXT_DB_TYPE || 'cubestore';
     const devServer = process.env.NODE_ENV !== 'production' || process.env.CUBEJS_DEV_MODE === 'true';
     const logger: LoggerFn = opts.logger || (
       process.env.NODE_ENV !== 'production'
@@ -312,35 +311,33 @@ export class CubejsServerCore {
       CubejsServerCore.lookupDriverClass(externalDbType).dialectClass &&
       CubejsServerCore.lookupDriverClass(externalDbType).dialectClass();
 
-    if (!externalDbType && getEnv('devMode')) {
+    if (externalDbType === 'cubestore' && getEnv('devMode')) {
       const cubeStorePackage = this.requireCubeStoreDriver();
-      if (cubeStorePackage) {
-        if (cubeStorePackage.isCubeStoreSupported()) {
-          console.log(`🔥 Cube Store (${version}) is assigned to 3030 port.`);
+      if (cubeStorePackage.isCubeStoreSupported()) {
+        console.log(`🔥 Cube Store (${version}) is assigned to 3030 port.`);
 
-          const cubeStoreHandler = new cubeStorePackage.CubeStoreHandler({
-            stdout: (data) => {
-              console.log(data.toString().trim());
-            },
-            stderr: (data) => {
-              console.log(data.toString().trim());
-            },
-            onRestart: (code) => logger('Cube Store Restarting', {
-              warning: `Instance exit with ${code}, restarting`,
-            }),
-          });
+        const cubeStoreHandler = new cubeStorePackage.CubeStoreHandler({
+          stdout: (data) => {
+            console.log(data.toString().trim());
+          },
+          stderr: (data) => {
+            console.log(data.toString().trim());
+          },
+          onRestart: (code) => logger('Cube Store Restarting', {
+            warning: `Instance exit with ${code}, restarting`,
+          }),
+        });
 
-          // Lazy loading for Cube Store
-          externalDriverFactory = () => new cubeStorePackage.CubeStoreDevDriver(cubeStoreHandler);
-          externalDialectFactory = () => cubeStorePackage.CubeStoreDevDriver.dialectClass();
-        } else {
-          logger('Cube Store is not supported on your system', {
-            warning: (
-              `You are using ${process.platform} platform with ${process.arch} architecture, ` +
-              'which is not supported by Cube Store.'
-            ),
-          });
-        }
+        // Lazy loading for Cube Store
+        externalDriverFactory = () => new cubeStorePackage.CubeStoreDevDriver(cubeStoreHandler);
+        externalDialectFactory = () => cubeStorePackage.CubeStoreDevDriver.dialectClass();
+      } else {
+        logger('Cube Store is not supported on your system', {
+          warning: (
+            `You are using ${process.platform} platform with ${process.arch} architecture, ` +
+            'which is not supported by Cube Store.'
+          ),
+        });
       }
     }
 

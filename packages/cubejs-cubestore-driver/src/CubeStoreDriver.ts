@@ -1,4 +1,5 @@
 import { BaseDriver } from '@cubejs-backend/query-orchestrator';
+import { getEnv } from '@cubejs-backend/shared';
 import { format as formatSql } from 'sqlstring';
 
 import { CubeStoreQuery } from './CubeStoreQuery';
@@ -19,10 +20,10 @@ export class CubeStoreDriver extends BaseDriver {
     super();
 
     this.config = {
-      host: process.env.CUBEJS_DB_HOST,
-      port: process.env.CUBEJS_DB_PORT,
-      user: process.env.CUBEJS_DB_USER,
-      password: process.env.CUBEJS_DB_PASS,
+      host: getEnv('cubeStoreHost') || process.env.CUBEJS_DB_HOST,
+      port: getEnv('cubeStorePort') || process.env.CUBEJS_DB_PORT,
+      user: getEnv('cubeStoreUser') || process.env.CUBEJS_DB_USER,
+      password: getEnv('cubeStorePass') || process.env.CUBEJS_DB_PASS,
       ...config,
     };
     this.connection = new WebSocketConnection(this.config);
