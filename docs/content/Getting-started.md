@@ -1,7 +1,8 @@
 ---
-title: Getting Started
-permalink: /getting-started
+title: Node.js
+permalink: /getting-started/nodejs
 category: Getting Started
+menuOrder: 3
 ---
 
 [link-connecting-to-the-database]: /connecting-to-the-database

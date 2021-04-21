@@ -1,6 +1,8 @@
 ---
-title: Getting Started with Docker
-permalink: /getting-started-docker
+title: Docker
+permalink: /getting-started/docker
+category: Getting Started
+menuOrder: 2
 ---
 
 This guide will help you get Cube.js running as a Docker container using Docker
@@ -37,7 +39,7 @@ services:
 | your local development environment.
 <!-- prettier-ignore-end -->
 
-### Playground
+### Developer Playground
 
 The [Developer Playground][ref-devtools-playground] has a database connection
 wizard that loads when Cube.js is first started up and no `.env` file is found.
