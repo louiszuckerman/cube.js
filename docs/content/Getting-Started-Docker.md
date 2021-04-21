@@ -3,19 +3,14 @@ title: Getting Started with Docker
 permalink: /getting-started-docker
 ---
 
-[link-connecting-to-the-database]: /connecting-to-the-database
-[link-cubejs-schema]: /getting-started-cubejs-schema
-[link-rest-api]: /rest-api
-[link-frontend-introduction]: /frontend-introduction
-[link-config]: /config
-[link-env-vars]: /reference/environment-variables
-
 This guide will help you get Cube.js running as a Docker container using Docker
 Compose.
 
+> LOOM VIDEO HERE
+
 ## 1. Create a Docker Compose file
 
-Create a `docker-compose.yml` file with the following content.
+Create a `docker-compose.yml` file with the following content:
 
 ```yaml
 version: '2.2'
@@ -29,26 +24,48 @@ services:
       # 3000 is a port for Playground web server
       # it is available only in dev mode
       - 3000:3000
-    env_file: .env
     volumes:
       - ./schema:/cube/conf/schema
 ```
 
 ## 2. Configure Cube.js
 
+<!-- prettier-ignore-start -->
+[[info |]]
+| This step assumes you can connect to a database instance. If you're unable
+| to connect to a remote instance, please use a Docker image to run one in
+| your local development environment.
+<!-- prettier-ignore-end -->
+
+### Playground
+
+The [Developer Playground][ref-devtools-playground] has a database connection
+wizard that loads when Cube.js is first started up and no `.env` file is found.
+
+> CONNECTION WIZARD SCREENSHOT HERE
+
+### Environment variables
+
 There are two ways you can set configuration options for Cube.js; via a
-[configuration file][link-config], commonly known as the `cube.js` file, and
-[environment variables][link-env-vars].
+[configuration file][ref-config], commonly known as the `cube.js` file, and
+[environment variables][ref-env-vars].
 
 We'll configure the database connection via environment variables. You can learn
 more about setting credentials for different databases in the [Connecting to the
-Database guide][link-connecting-to-the-database].
+Database guide][ref-connecting-to-the-database].
 
-The example below is for a Postgres instance running locally.
+Create a `.env` file, using the code snippet below. This expects a Postgres
+instance to be running locally.
 
 ```bash
-# Create an .env file with the following content
 CUBEJS_DB_TYPE=postgres
+CUBEJS_DB_NAME=databasename
+CUBEJS_DB_USER=databaseuser
+CUBEJS_DB_PASS=secret
+CUBEJS_DB_PORT=5432
+CUBEJS_WEB_SOCKETS=true
+CUBEJS_DEV_MODE=true
+CUBEJS_API_SECRET=<API_SECRET>
 
 # For Mac
 CUBEJS_DB_HOST=host.docker.internal
@@ -58,13 +75,6 @@ CUBEJS_DB_HOST=docker.for.win.localhost
 
 # For Linux
 CUBEJS_DB_HOST=localhost
-
-CUBEJS_DB_NAME=databasename
-CUBEJS_DB_USER=databaseuser
-CUBEJS_DB_PASS=secret
-CUBEJS_WEB_SOCKETS=true
-CUBEJS_DEV_MODE=true
-CUBEJS_API_SECRET=SECRET
 ```
 
 ### Network config for Linux Users
@@ -90,22 +100,20 @@ $ docker ps
 ## 4. Open Developer Playground
 
 Head to [http://localhost:4000](http://localhost:4000) to open [Developer
-Playground][link-dev-playground].
+Playground][ref-devtools-playground].
 
 You can generate Data Schema files using Developer Playground. Once schema files
 are generated you can execute queries on the Build tab in the Playground.
-
-[link-dev-playground]: /dev-tools/dev-playground
 
 ## Next Steps
 
 Generating Data Schema files in Developer Playground is a good first step to
 start modelling your data. You can [learn more about Cube.js Data
-Schema][link-cubejs-schema] for complex data modelling techniques.
+Schema][ref-cubejs-schema] for complex data modelling techniques.
 
-Learn how to [query Cube.js with REST API][link-rest-api] or [use Javascript
+Learn how to [query Cube.js with REST API][ref-rest-api] or [use Javascript
 client library and integrations with frontend
-frameworks][link-frontend-introduction].
+frameworks][ref-frontend-introduction].
 
 ### Configuration with cube.js file
 
@@ -117,3 +125,11 @@ volumes:
   - ./schema:/cube/conf/schema
   - ./cube.js:/cube/conf/cube.js
 ```
+
+[ref-config]: /config
+[ref-connecting-to-the-database]: /connecting-to-the-database
+[ref-cubejs-schema]: /getting-started-cubejs-schema
+[ref-devtools-playground]: /dev-tools/dev-playground
+[ref-env-vars]: /reference/environment-variables
+[ref-frontend-introduction]: /frontend-introduction
+[ref-rest-api]: /rest-api
