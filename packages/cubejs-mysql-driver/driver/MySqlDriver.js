@@ -232,10 +232,10 @@ class MySqlDriver extends BaseDriver {
         VALUES ${valueParamPlaceholders}`,
           params
         );
-        for (let i = 0; i < indexesSql.length; i++) {
-          const [query, p] = indexesSql[i].sql;
-          await this.query(query, p);
-        }
+      }
+      for (let i = 0; i < indexesSql.length; i++) {
+        const [query, p] = indexesSql[i].sql;
+        await this.query(query, p);
       }
     } catch (e) {
       await this.dropTable(table);
