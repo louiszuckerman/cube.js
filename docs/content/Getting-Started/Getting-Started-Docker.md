@@ -11,7 +11,7 @@ This guide will help you get Cube.js running using Docker.
 
 > LOOM VIDEO HERE
 
-## 1. Create a Docker Compose file
+## 1. Create a new project
 
 In a new folder for your project, run the following command:
 
@@ -19,7 +19,7 @@ In a new folder for your project, run the following command:
 docker run -p 4000:4000 -v cube:/cube/conf -e CUBEJS_DEV_MODE=true cubejs/cube
 ```
 
-## 2. Configure Cube.js
+## 2. Open Developer Playground
 
 <!-- prettier-ignore-start -->
 [[info |]]
@@ -28,17 +28,13 @@ docker run -p 4000:4000 -v cube:/cube/conf -e CUBEJS_DEV_MODE=true cubejs/cube
 | your local development environment.
 <!-- prettier-ignore-end -->
 
-### Developer Playground
+Head to [http://localhost:4000](http://localhost:4000) to open [Developer
+Playground][ref-devtools-playground].
 
 The [Developer Playground][ref-devtools-playground] has a database connection
 wizard that loads when Cube.js is first started up and no `.env` file is found.
 
 > CONNECTION WIZARD SCREENSHOT HERE
-
-## 3. Open Developer Playground
-
-Head to [http://localhost:4000](http://localhost:4000) to open [Developer
-Playground][ref-devtools-playground].
 
 You can generate Data Schema files using Developer Playground. Once schema files
 are generated you can execute queries on the Build tab in the Playground.
