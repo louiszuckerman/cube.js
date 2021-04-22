@@ -1,6 +1,6 @@
 ---
-title: Docker
-permalink: /getting-started/docker
+title: Docker Compose
+permalink: /getting-started/docker-compose
 category: Getting Started
 menuOrder: 2
 ---
@@ -34,9 +34,10 @@ services:
 
 <!-- prettier-ignore-start -->
 [[info |]]
-| This step assumes you can connect to a database instance. If you're unable
-| to connect to a remote instance, please use a Docker image to run one in
-| your local development environment.
+| This step assumes that you have the necessary credentials to access a
+| database instance. If you are unable to connect to a database instance,
+| please use a Docker image to run a local database in your development
+| environment.
 <!-- prettier-ignore-end -->
 
 ### Developer Playground
@@ -45,6 +46,8 @@ The [Developer Playground][ref-devtools-playground] has a database connection
 wizard that loads when Cube.js is first started up and no `.env` file is found.
 
 > CONNECTION WIZARD SCREENSHOT HERE
+
+After setting this up, you can skip ahead to [Run Cube.js](#3-run-cube-js).
 
 ### Environment variables
 
