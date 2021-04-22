@@ -2,7 +2,7 @@
 title: Node.js
 permalink: /getting-started/nodejs
 category: Getting Started
-menuOrder: 3
+menuOrder: 4
 ---
 
 [link-connecting-to-the-database]: /connecting-to-the-database

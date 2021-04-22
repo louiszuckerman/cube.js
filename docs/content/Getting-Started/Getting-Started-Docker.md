@@ -1,76 +1,41 @@
 ---
-title: Docker Compose
-permalink: /getting-started/docker-compose
+title: Docker
+permalink: /getting-started/docker
 category: Getting Started
-menuOrder: 3
+menuOrder: 2
+redirect_from:
+  - /getting-started-docker
 ---
 
-This guide will help you get Cube.js running using Docker
-Compose.
+This guide will help you get Cube.js running using Docker.
 
 > LOOM VIDEO HERE
 
 ## 1. Create a Docker Compose file
 
-Create a `docker-compose.yml` file with the following content:
+In a new folder for your project, run the following command:
 
-```yaml
-version: '2.2'
-
-services:
-  cube:
-    image: cubejs/cube:latest
-    ports:
-      # 4000 is a port for Cube.js API
-      - 4000:4000
-      # 3000 is a port for Playground web server
-      # it is available only in dev mode
-      - 3000:3000
-    environment:
-      - CUBEJS_DEV_MODE=true
-    volumes:
-      - cube:/cube/conf
-
-volumes:
-  cube:
-```
-
-### Network config for Linux Users
-
-For Linux, add the following line to your `docker-compose.yml`
-
-```yaml
-network_mode: 'host'
+```bash
+docker run -p 4000:4000 -v cube:/cube/conf -e CUBEJS_DEV_MODE=true cubejs/cube
 ```
 
 ## 2. Configure Cube.js
 
 <!-- prettier-ignore-start -->
 [[info |]]
-| This step assumes that you have the necessary credentials to access a
-| database instance. If you are unable to connect to a database instance,
-| please use a Docker image to run a local database in your development
-| environment.
+| This step assumes you can connect to a database instance. If you're unable
+| to connect to a remote instance, please use a Docker image to run one in
+| your local development environment.
 <!-- prettier-ignore-end -->
+
+### Developer Playground
 
 The [Developer Playground][ref-devtools-playground] has a database connection
 wizard that loads when Cube.js is first started up and no `.env` file is found.
 
 > CONNECTION WIZARD SCREENSHOT HERE
 
-## 3. Run Cube.js
-
-```bash
-$ docker-compose up -d
-```
-
-Check if the container is running:
-
-```bash
-$ docker-compose ps
-```
-
-## 4. Open Developer Playground
+## 3. Open Developer Playground
 
 Head to [http://localhost:4000](http://localhost:4000) to open [Developer
 Playground][ref-devtools-playground].
